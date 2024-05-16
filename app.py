@@ -17,10 +17,13 @@ with tab1:
     #st.dataframe(df)
 
     df_after_sql_query = duckdb.sql(sql_query).df()
-    st.dataframe(df_after_query)
+    st.dataframe(df_after_sql_query)
 
 with tab2:
     st.header("A dog")
 
 with tab3:
     st.header("An owl")
+
+
+# streamlit run app.py
