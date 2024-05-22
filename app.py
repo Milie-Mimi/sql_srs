@@ -1,35 +1,32 @@
-# Création d'un interpréteur de requêtes SQL qui nous permet d'aller taper dans une table et d'afficher les résultats
-# dans l'application
-
+# pylint: disable=missing-module-docstring
 import io
-import streamlit as st
-import pandas as pd
+
 import duckdb
+import pandas as pd
+import streamlit as st
 
-
-csv = '''
+CSV = """
 beverage, price
 orange juice, 2.5
 expresso, 2
 tea, 3
-'''
-beverages = pd.read_csv(io.StringIO(csv))
+"""
+beverages = pd.read_csv(io.StringIO(CSV))
 
-csv2 = '''
+CSV2 = """
 food_item, food_price
 cookie juice, 2.5
 chocolatine, 2
 muffin, 3
-'''
-food_items = pd.read_csv(io.StringIO(csv2))
+"""
+food_items = pd.read_csv(io.StringIO(CSV2))
 
-
-answer = """
+ANSWER_STR = """
 SELECT * FROM beverages
 CROSS JOIN food_items"""
 
 
-solution = duckdb.sql(answer).df()
+solution_df = duckdb.sql(ANSWER_STR).df()
 
 with st.sidebar:
     option = st.selectbox(
@@ -38,26 +35,39 @@ with st.sidebar:
         index=None,
         placeholder="Select a theme...",
     )
-    st.write('You selected:', option)
+    st.write("You selected:", option)
 
 
 st.header("enter your code:")
-query = st.text_area(label="code SQL", key = "user_input")
+query = st.text_area(label="code SQL", key="user_input")
 if query:
     result = duckdb.sql(query).df()
     st.dataframe(result)
 
-tab2, tab3 = st.tabs(["Tables", "Solution"])
+    try:
+        result = result[solution_df.columns]
+        st.dataframe(result.compare(solution_df))
+    except KeyError as e:
+        st.write("Some columns are missing")
 
-with tab2:
+    n_lines_difference = result.shape[0] - solution_df.shape[0]
+    if n_lines_difference != 0:
+        st.write(
+            f"result has a {n_lines_difference} lines difference with the solution"
+        )
+
+
+tab1, tab2 = st.tabs(["Tables", "Solution"])
+
+with tab1:
     st.write("table: beverages")
     st.dataframe(beverages)
     st.write("table: food_items")
     st.dataframe(food_items)
     st.write("expected:")
-    st.dataframe(solution)
+    st.dataframe(solution_df)
 
-with tab3:
-    st.write(answer)
+with tab2:
+    st.write(ANSWER_STR)
 
 # streamlit run app.py
