@@ -2,12 +2,12 @@
 
 import duckdb
 import streamlit as st
+import ast
 
 
 # ------------------------------------------------------------
 # CONNECTION BDD
 # ------------------------------------------------------------
-
 con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=False)
 
 #ANSWER_STR = """
@@ -21,11 +21,10 @@ con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=Fals
 # ------------------------------------------------------------
 # SIDEBAR
 # ------------------------------------------------------------
-
 with st.sidebar:
     theme = st.selectbox(
         "What would you like to review",
-        ("cross_joins", "GroupBy", "Windows Functions"),
+        ("cross_joins", "GroupBy", "window_functions"),
         index=None,
         placeholder="Select a theme...",
     )
@@ -34,11 +33,19 @@ with st.sidebar:
     exercise = con.execute(f"SELECT * FROM memory_state WHERE theme = '{theme}'").df()
     st.write(exercise)
 
+
+# ------------------------------------------------------------
+# HEADER
+# ------------------------------------------------------------
 st.header("enter your code:")
+
+# ------------------------------------------------------------
+# QUERY
+# ------------------------------------------------------------
 query = st.text_area(label="code SQL", key="user_input")
-#if query:
-#    result = duckdb.sql(query).df()
-#    st.dataframe(result)
+if query:
+    result = con.execute(query).df()
+    st.dataframe(result)
 #
 #    try:
 #        result = result[solution_df.columns]
@@ -53,16 +60,23 @@ query = st.text_area(label="code SQL", key="user_input")
 #        )
 #
 #
-#tab1, tab2 = st.tabs(["Tables", "Solution"])
-#
-#with tab1:
-#    st.write("table: beverages")
-#    st.dataframe(beverages)
-#    st.write("table: food_items")
-#    st.dataframe(food_items)
-#    st.write("expected:")
-#    st.dataframe(solution_df)
-#
+
+# ------------------------------------------------------------
+# TABS
+# ------------------------------------------------------------
+tab1, tab2 = st.tabs(["Tables", "Solution"])
+
+with tab1:
+    exercise_tables = ast.literal_eval(exercise.loc[0, "tables"]) # pour garder le format liste et non str
+    for table in exercise_tables:
+        st.write(f"table: {table}")
+        df_table = con.execute(f"SELECT * FROM {table}").df()
+        st.dataframe(df_table)
+
+
+
+
+
 #with tab2:
 #    st.write(ANSWER_STR)
 
