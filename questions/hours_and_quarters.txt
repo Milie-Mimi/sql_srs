@@ -1,0 +1,1 @@
+Obtenir tous les quarts d'heure d'ouverture du magasin entre 8h et 12h.
