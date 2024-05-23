@@ -14,13 +14,10 @@ con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=Fals
 # CROSS JOIN food_items"""
 
 
-# solution_df = duckdb.sql(ANSWER_STR).df()
-
-
 # ------------------------------------------------------------
 # SIDEBAR
 # ------------------------------------------------------------
-with st.sidebar:
+with (st.sidebar):
     theme = st.selectbox(
         "What would you like to review",
         ("cross_joins", "GroupBy", "window_functions"),
@@ -31,6 +28,12 @@ with st.sidebar:
 
     exercise = con.execute(f"SELECT * FROM memory_state WHERE theme = '{theme}'").df()
     st.write(exercise)
+
+    exercise_name = exercise.loc[0, "exercise_name"]
+    with open(f"answers/{exercise_name}.sql", "r") as f:
+        answer = f.read()
+
+    solution_df = con.execute(answer).df()
 
 
 # ------------------------------------------------------------
@@ -45,20 +48,19 @@ query = st.text_area(label="code SQL", key="user_input")
 if query:
     result = con.execute(query).df()
     st.dataframe(result)
-#
-#    try:
-#        result = result[solution_df.columns]
-#        st.dataframe(result.compare(solution_df))
-#    except KeyError as e:
-#        st.write("Some columns are missing")
-#
-#    n_lines_difference = result.shape[0] - solution_df.shape[0]
-#    if n_lines_difference != 0:
-#        st.write(
-#            f"result has a {n_lines_difference} lines difference with the solution"
-#        )
-#
-#
+
+    try:
+        result = result[solution_df.columns]
+        st.dataframe(result.compare(solution_df))
+    except KeyError as e:
+        st.write("Some columns are missing")
+
+    n_lines_difference = result.shape[0] - solution_df.shape[0]
+    if n_lines_difference != 0:
+        st.write(
+            f"result has a {n_lines_difference} lines difference with the solution"
+        )
+
 
 # ------------------------------------------------------------
 # TABS
@@ -75,9 +77,6 @@ with tab1:
         st.dataframe(df_table)
 
 with tab2:
-    exercise_name = exercise.loc[0, "exercise_name"]
-    with open(f"answers/{exercise_name}.sql", "r") as f:
-        answer = f.read()
     st.write(answer)
 
 
