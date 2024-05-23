@@ -73,11 +73,9 @@ with tab1:
         df_table = con.execute(f"SELECT * FROM {table}").df()
         st.dataframe(df_table)
 
+with tab2:
+    ANSWER_STR = exercise.loc[0, "answer"]
+    st.write(ANSWER_STR)
 
-
-
-
-#with tab2:
-#    st.write(ANSWER_STR)
 
 # streamlit run app.py
