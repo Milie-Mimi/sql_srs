@@ -1,23 +1,33 @@
 # pylint: disable=missing-module-docstring
-import ast
-
+import os
+import logging
 import duckdb
 import streamlit as st
 
 # ------------------------------------------------------------
 # CONNECTION BDD
 # ------------------------------------------------------------
+# Création du dossier data
+if "data" not in os.listdir():
+    logging.error(os.listdir())
+    logging.error("creating folder data")
+    os.mkdir("data")
+
+# On lance init_db.py pour créer la BDD
+if "exercises_sql_tables.duckdb" not in os.listdir("data"):
+    exec(open("init_db.py").read())
+    #subprocess.run(["python", "init_db.py"])
+
+
 con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=False)
 
-# ANSWER_STR = """
-# SELECT * FROM beverages
-# CROSS JOIN food_items"""
+
 
 
 # ------------------------------------------------------------
 # SIDEBAR
 # ------------------------------------------------------------
-with (st.sidebar):
+with st.sidebar:
     theme = st.selectbox(
         "What would you like to review",
         ("cross_joins", "GroupBy", "window_functions"),
@@ -26,7 +36,12 @@ with (st.sidebar):
     )
     st.write("You selected:", theme)
 
-    exercise = con.execute(f"SELECT * FROM memory_state WHERE theme = '{theme}'").df()
+    exercise = (
+        con.execute(f"SELECT * FROM memory_state WHERE theme = '{theme}'")
+        .df()
+        .sort_values("last_reviewed")
+        .reset_index(drop=True)
+    )
     st.write(exercise)
 
     exercise_name = exercise.loc[0, "exercise_name"]
@@ -68,9 +83,7 @@ if query:
 tab1, tab2 = st.tabs(["Tables", "Solution"])
 
 with tab1:
-    exercise_tables = ast.literal_eval(
-        exercise.loc[0, "tables"]
-    )  # pour garder le format liste et non str
+    exercise_tables = exercise.loc[0, "tables"]
     for table in exercise_tables:
         st.write(f"table: {table}")
         df_table = con.execute(f"SELECT * FROM {table}").df()
