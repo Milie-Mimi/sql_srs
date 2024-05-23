@@ -1,21 +1,20 @@
 # pylint: disable=missing-module-docstring
+import ast
 
 import duckdb
 import streamlit as st
-import ast
-
 
 # ------------------------------------------------------------
 # CONNECTION BDD
 # ------------------------------------------------------------
 con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=False)
 
-#ANSWER_STR = """
-#SELECT * FROM beverages
-#CROSS JOIN food_items"""
+# ANSWER_STR = """
+# SELECT * FROM beverages
+# CROSS JOIN food_items"""
 
 
-#solution_df = duckdb.sql(ANSWER_STR).df()
+# solution_df = duckdb.sql(ANSWER_STR).df()
 
 
 # ------------------------------------------------------------
@@ -67,7 +66,9 @@ if query:
 tab1, tab2 = st.tabs(["Tables", "Solution"])
 
 with tab1:
-    exercise_tables = ast.literal_eval(exercise.loc[0, "tables"]) # pour garder le format liste et non str
+    exercise_tables = ast.literal_eval(
+        exercise.loc[0, "tables"]
+    )  # pour garder le format liste et non str
     for table in exercise_tables:
         st.write(f"table: {table}")
         df_table = con.execute(f"SELECT * FROM {table}").df()
