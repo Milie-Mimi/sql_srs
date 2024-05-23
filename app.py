@@ -84,14 +84,16 @@ with open(f"questions/{exercise_name}.txt", "r") as f:
     question = f.read()
 
 st.write(question)
-st.header("enter your code:")
+
 
 # ------------------------------------------------------------
 # QUERY
 # ------------------------------------------------------------
+st.header("Réponse")
 query = st.text_area(label="code SQL", key="user_input")
 if query:
     check_users_solution(query)
+
 
 # ------------------------------------------------------------
 # TABS
@@ -99,13 +101,40 @@ if query:
 tab1, tab2 = st.tabs(["Tables", "Solution"])
 
 with tab1:
+    cols = st.columns(2)
     exercise_tables = exercise.loc[0, "tables"]
-    for table in exercise_tables:
-        st.write(f"table: {table}")
-        df_table = con.execute(f"SELECT * FROM {table}").df()
-        st.dataframe(df_table)
+    #st.write(exercise_tables[0])
+    for i in range(0, 2):
+        cols[i].write(exercise_tables[i])
+        df_table = con.execute(f"SELECT * FROM {exercise_tables[i]}").df()
+        cols[i].table(df_table)
+    #cols[i].write(exercise_tables[i])
+    #df_table = con.execute(f"SELECT * FROM {exercise_tables[i]}").df()
+    #cols[i].table(df_table)
+#    for table in exercise_tables:
+#        #col1, col2 = st.columns(2)
+#        for col in st.columns(2):
+#            col.write(f"table: {table}")
+#            df_table = con.execute(f"SELECT * FROM {table}").df()
+#            col.table(df_table)
+
+
+# A modifier pour avoir les tables à côté
+#with tab1:
+#    exercise_tables = exercise.loc[0, "tables"]
+#    for table in exercise_tables:
+#        #col1, col2 = st.columns(2)
+#        for col in st.columns(2):
+#            col.write(f"table: {table}")
+#            df_table = con.execute(f"SELECT * FROM {table}").df()
+#            col.table(df_table)
+
 
 with tab2:
     st.write(answer)
+    df_answer = con.execute(answer).df()
+    st.table(df_answer)
+
+
 
 # streamlit run app.py
