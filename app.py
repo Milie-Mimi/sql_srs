@@ -9,6 +9,7 @@ import streamlit as st
 # ------------------------------------------------------------
 # Création du dossier data
 if "data" not in os.listdir():
+    print("creating folder data")
     logging.error(os.listdir())
     logging.error("creating folder data")
     os.mkdir("data")
@@ -78,6 +79,11 @@ with st.sidebar:
 # ------------------------------------------------------------
 # HEADER
 # ------------------------------------------------------------
+st.header("Question:")
+with open(f"questions/{exercise_name}.txt", "r") as f:
+    question = f.read()
+
+st.write(question)
 st.header("enter your code:")
 
 # ------------------------------------------------------------
