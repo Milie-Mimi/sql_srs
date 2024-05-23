@@ -74,8 +74,10 @@ with tab1:
         st.dataframe(df_table)
 
 with tab2:
-    ANSWER_STR = exercise.loc[0, "answer"]
-    st.write(ANSWER_STR)
+    exercise_name = exercise.loc[0, "exercise_name"]
+    with open(f"answers/{exercise_name}.sql", "r") as f:
+        answer = f.read()
+    st.write(answer)
 
 
 # streamlit run app.py
