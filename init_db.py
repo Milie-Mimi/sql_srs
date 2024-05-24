@@ -1,4 +1,7 @@
 import io
+import random
+from datetime import timedelta, datetime
+
 import pandas as pd
 import duckdb
 
@@ -9,10 +12,10 @@ con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=Fals
 # ------------------------------------------------------------
 
 data = {
-    "theme": ["cross_joins", "cross_joins", "cross_joins"],
-    "exercise_name": ["beverages_and_food", "sizes_and_trademarks", "hours_and_quarters"],
-    "tables": [["beverages", "food_items"], ["sizes", "trademarks"], ["hours", "quarters"]],
-    "last_reviewed": ["1980-01-01", "1970-01-01", "1970-01-01"],
+    "theme": ["cross_joins", "cross_joins", "cross_joins", "inner_joins"],
+    "exercise_name": ["beverages_and_food", "sizes_and_trademarks", "hours_and_quarters", "salaries_and_seniorities"],
+    "tables": [["beverages", "food_items"], ["sizes", "trademarks"], ["hours", "quarters"], ["salaries", "seniorities"]],
+    "last_reviewed": ["1970-01-01", "1970-01-01", "1970-01-01", "1960-01-01"],
 }
 memory_state_df = pd.DataFrame(data)
 con.execute("CREATE TABLE IF NOT EXISTS memory_state AS SELECT * FROM memory_state_df")
@@ -82,6 +85,31 @@ quarter
 '''
 quarters = pd.read_csv(io.StringIO(quarters))
 con.execute("CREATE TABLE IF NOT EXISTS quarters AS SELECT * FROM quarters")
+
+# ------------------------------------------------------------
+# INNER JOIN EXERCISES
+# ------------------------------------------------------------
+salaries = '''
+salary,employee_id
+2000,1
+2500,2
+2200,3
+'''
+salaries = pd.read_csv(io.StringIO(salaries))
+con.execute("CREATE TABLE IF NOT EXISTS salaries AS SELECT * FROM salaries")
+
+seniorities = '''
+employee_id,seniority
+1,2ans
+2,4ans
+'''
+seniorities = pd.read_csv(io.StringIO(seniorities))
+con.execute("CREATE TABLE IF NOT EXISTS seniorities AS SELECT * FROM seniorities")
+
+
+
+
+
 
 
 con.close()
