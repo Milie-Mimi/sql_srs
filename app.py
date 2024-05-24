@@ -25,6 +25,8 @@ con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=Fals
 # ------------------------------------------------------------
 # FONCTIONS
 # ------------------------------------------------------------
+
+
 def check_users_solution(user_query: str) -> None:
     """
     Checks that user SQL query is correct by:
@@ -83,17 +85,75 @@ with st.sidebar:
 # ------------------------------------------------------------
 # HEADER
 # ------------------------------------------------------------
-st.header("Question:")
+st.header('SQL questions with :blue[SRS] :sunglasses:', divider='rainbow')
+
+with st.expander("**What is SRS?**"):
+    st.write('''
+        Spaced repetition is an evidence-based learning technique that is usually performed with flashcards. 
+        **Newly introduced and more difficult flashcards are shown more frequently**, while older and less difficult 
+        flashcards are shown less frequently in order to exploit the psychological spacing effect. 
+        The use of spaced repetition has been proven to **increase the rate of learning**.
+
+        Spaced repetition is commonly applied in contexts in which **a learner must acquire many items 
+        and retain them indefinitely in memory**. 
+        It is, therefore, well suited for the problem of vocabulary acquisition in the course of 
+        second-language learning (works also for programming language).
+        
+        Source: Wikipedia
+    ''')
+    st.image("pictures/SRS.JPG")
+
+st.subheader("Question:")
 with open(f"questions/{exercise_name}.txt", "r") as f:
     question = f.read()
 
 st.write(question)
 
+# ------------------------------------------------------------
+# TABS
+# ------------------------------------------------------------
+tab1, tab2 = st.tabs(["Tables", "Solution"])
+
+with tab1:
+    cols = st.columns(2)
+    exercise_tables = exercise.loc[0, "tables"]
+    # st.write(exercise_tables[0])
+    for i in range(0, 2):
+        cols[i].write(exercise_tables[i])
+        df_table = con.execute(f"SELECT * FROM {exercise_tables[i]}").df()
+        cols[i].table(df_table)
+    # cols[i].write(exercise_tables[i])
+    # df_table = con.execute(f"SELECT * FROM {exercise_tables[i]}").df()
+    # cols[i].table(df_table)
+#    for table in exercise_tables:
+#        #col1, col2 = st.columns(2)
+#        for col in st.columns(2):
+#            col.write(f"table: {table}")
+#            df_table = con.execute(f"SELECT * FROM {table}").df()
+#            col.table(df_table)
+
+
+# A modifier pour avoir les tables à côté
+# with tab1:
+#    exercise_tables = exercise.loc[0, "tables"]
+#    for table in exercise_tables:
+#        #col1, col2 = st.columns(2)
+#        for col in st.columns(2):
+#            col.write(f"table: {table}")
+#            df_table = con.execute(f"SELECT * FROM {table}").df()
+#            col.table(df_table)
+
+
+with tab2:
+    st.write(answer)
+    df_answer = con.execute(answer).df()
+    st.table(df_answer)
+
 
 # ------------------------------------------------------------
 # QUERY
 # ------------------------------------------------------------
-st.header("Réponse")
+st.subheader("Réponse")
 form = st.form("my_form")
 query = form.text_area(label="code SQL", key="user_input")
 form.form_submit_button("Submit")
@@ -114,46 +174,12 @@ if st.button("Reset"):
     st.rerun()
 
 
-# ------------------------------------------------------------
-# TABS
-# ------------------------------------------------------------
-tab1, tab2 = st.tabs(["Tables", "Solution"])
-
-with tab1:
-    cols = st.columns(2)
-    exercise_tables = exercise.loc[0, "tables"]
-    #st.write(exercise_tables[0])
-    for i in range(0, 2):
-        cols[i].write(exercise_tables[i])
-        df_table = con.execute(f"SELECT * FROM {exercise_tables[i]}").df()
-        cols[i].table(df_table)
-    #cols[i].write(exercise_tables[i])
-    #df_table = con.execute(f"SELECT * FROM {exercise_tables[i]}").df()
-    #cols[i].table(df_table)
-#    for table in exercise_tables:
-#        #col1, col2 = st.columns(2)
-#        for col in st.columns(2):
-#            col.write(f"table: {table}")
-#            df_table = con.execute(f"SELECT * FROM {table}").df()
-#            col.table(df_table)
-
-
-# A modifier pour avoir les tables à côté
-#with tab1:
-#    exercise_tables = exercise.loc[0, "tables"]
-#    for table in exercise_tables:
-#        #col1, col2 = st.columns(2)
-#        for col in st.columns(2):
-#            col.write(f"table: {table}")
-#            df_table = con.execute(f"SELECT * FROM {table}").df()
-#            col.table(df_table)
-
-
-with tab2:
-    st.write(answer)
-    df_answer = con.execute(answer).df()
-    st.table(df_answer)
 
 
 
 # streamlit run app.py
+
+
+#To DO:
+#Ajouter des Thèmes et des questions
+#Boutons revoir en colonnes
