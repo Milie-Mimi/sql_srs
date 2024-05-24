@@ -23,6 +23,28 @@ if "exercises_sql_tables.duckdb" not in os.listdir("data"):
 con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=False)
 
 # ------------------------------------------------------------
+# CONFIG PAGE
+# ------------------------------------------------------------
+st.set_page_config(page_title="SQL_SRS", page_icon="🎯", layout="wide", )
+
+st.markdown("""
+                <style>
+                .image_credit-font {
+                    font-size:14px;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+
+st.markdown("""
+                <style>
+                .text-font {
+                    font-size:20px;
+                    text-align: justify;
+                }
+                </style>
+                """, unsafe_allow_html=True)
+
+# ------------------------------------------------------------
 # FONCTIONS
 # ------------------------------------------------------------
 
@@ -55,7 +77,7 @@ def check_users_solution(user_query: str) -> None:
 # SIDEBAR
 # ------------------------------------------------------------
 with st.sidebar:
-    st.image('pictures/DuckDB.PNG', caption='DuckDB logo')
+    st.image("pictures/DuckDB.PNG", caption="DuckDB logo")
     available_themes_df = con.execute("SELECT DISTINCT theme FROM memory_state").df()
     theme = st.selectbox(
         "What would you like to review",
@@ -75,7 +97,7 @@ with st.sidebar:
         .sort_values("last_reviewed")
         .reset_index(drop=True)
     )
-    st.write(exercise)
+
     exercise_name = exercise.loc[0, "exercise_name"]
     with open(f"answers/{exercise_name}.sql", "r") as f:
         answer = f.read()
@@ -85,10 +107,11 @@ with st.sidebar:
 # ------------------------------------------------------------
 # HEADER
 # ------------------------------------------------------------
-st.header('SQL questions with :blue[SRS] :sunglasses:', divider='rainbow')
+st.header("SQL questions with :blue[SRS] :sunglasses:", divider="rainbow")
 
 with st.expander("**What is SRS?**"):
-    st.write('''
+    st.write(
+        """
         Spaced repetition is an evidence-based learning technique that is usually performed with flashcards. 
         **Newly introduced and more difficult flashcards are shown more frequently**, while older and less difficult 
         flashcards are shown less frequently in order to exploit the psychological spacing effect. 
@@ -100,7 +123,8 @@ with st.expander("**What is SRS?**"):
         second-language learning (works also for programming language).
         
         Source: Wikipedia
-    ''')
+    """
+    )
     st.image("pictures/SRS.JPG")
 
 st.subheader("Question:")
@@ -117,31 +141,10 @@ tab1, tab2 = st.tabs(["Tables", "Solution"])
 with tab1:
     cols = st.columns(2)
     exercise_tables = exercise.loc[0, "tables"]
-    # st.write(exercise_tables[0])
     for i in range(0, 2):
         cols[i].write(exercise_tables[i])
         df_table = con.execute(f"SELECT * FROM {exercise_tables[i]}").df()
         cols[i].table(df_table)
-    # cols[i].write(exercise_tables[i])
-    # df_table = con.execute(f"SELECT * FROM {exercise_tables[i]}").df()
-    # cols[i].table(df_table)
-#    for table in exercise_tables:
-#        #col1, col2 = st.columns(2)
-#        for col in st.columns(2):
-#            col.write(f"table: {table}")
-#            df_table = con.execute(f"SELECT * FROM {table}").df()
-#            col.table(df_table)
-
-
-# A modifier pour avoir les tables à côté
-# with tab1:
-#    exercise_tables = exercise.loc[0, "tables"]
-#    for table in exercise_tables:
-#        #col1, col2 = st.columns(2)
-#        for col in st.columns(2):
-#            col.write(f"table: {table}")
-#            df_table = con.execute(f"SELECT * FROM {table}").df()
-#            col.table(df_table)
 
 
 with tab2:
@@ -161,6 +164,7 @@ form.form_submit_button("Submit")
 if query:
     check_users_solution(query)
 
+cols_srs = st.columns(3)
 for n_days in [2, 7, 21]:
     if st.button(f"Revoir dans {n_days} jours"):
         next_review = date.today() + timedelta(days=n_days)
@@ -174,12 +178,17 @@ if st.button("Reset"):
     st.rerun()
 
 
-
-
-
 # streamlit run app.py
 
 
-#To DO:
-#Ajouter des Thèmes et des questions
-#Boutons revoir en colonnes
+# To DO:
+# Ajouter des Thèmes et des questions
+# Boutons revoir en colonnes
+#-> Rendre l'UI encore plus agréable
+#-> Créer un système d'authentification pour avoir plusieurs utilisateurs
+#-> Formatter le SQL qui affiche la réponse
+#-> Si vous en voyez d'autres, lancez vous :)
+#
+#
+#Je rembourse l'inscription au programme à celui ou celle qui fera la plus belle app d'ici début Décembre :D
+#(Personne ne va oser se lancer, si vous le faites vous serez en compétition contre même pas 5 personnes ;) )
