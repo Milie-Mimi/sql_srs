@@ -1,0 +1,1 @@
+Récupérer toutes les commandes avec les détails de chaque commande.
