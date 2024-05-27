@@ -114,6 +114,7 @@ with st.sidebar:
 
     solution_df = con.execute(answer).df()
 
+
 # ------------------------------------------------------------
 # HEADER
 # ------------------------------------------------------------
@@ -149,9 +150,10 @@ st.write(question)
 tab1, tab2 = st.tabs(["Tables", "Solution"])
 
 with tab1:
-    cols = st.columns(2)
     exercise_tables = exercise.loc[0, "tables"]
-    for i in range(0, 2):
+    exercise_tables_len = len(exercise_tables)
+    cols = st.columns(exercise_tables_len)
+    for i in range(0, exercise_tables_len):
         cols[i].write(exercise_tables[i])
         df_table = con.execute(f"SELECT * FROM {exercise_tables[i]}").df()
         cols[i].table(df_table)

@@ -41,3 +41,5 @@ exercise = (
     .reset_index(drop=True)
 )
 st.dataframe(exercise)
+
+
