@@ -1,0 +1,1 @@
+Obtenir les commandes détaillées de chaque client.

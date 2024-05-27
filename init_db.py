@@ -17,6 +17,8 @@ data = {
         "cross_joins_3",
         "inner_joins_1",
         "left_joins_1",
+        "left_joins_2",
+        "left_joins_3.txt",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -24,13 +26,17 @@ data = {
         ["hours", "quarters"],
         ["salaries", "seniorities"],
         ["orders", "customers", "products", "order_details"],
+        ["orders", "customers", "products", "order_details"],
+        ["orders", "customers", "products", "order_details"],
     ],
     "last_reviewed": [
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
-        "1960-01-01",
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
     ],
 }
 memory_state_df = pd.DataFrame(data)
