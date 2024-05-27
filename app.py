@@ -25,24 +25,34 @@ con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=Fals
 # ------------------------------------------------------------
 # CONFIG PAGE
 # ------------------------------------------------------------
-st.set_page_config(page_title="SQL_SRS", page_icon="🎯", layout="wide", )
+st.set_page_config(
+    page_title="SQL_SRS",
+    page_icon="🎯",
+    layout="wide",
+)
 
-st.markdown("""
+st.markdown(
+    """
                 <style>
                 .image_credit-font {
                     font-size:14px;
                 }
                 </style>
-                """, unsafe_allow_html=True)
+                """,
+    unsafe_allow_html=True,
+)
 
-st.markdown("""
+st.markdown(
+    """
                 <style>
                 .text-font {
                     font-size:20px;
                     text-align: justify;
                 }
                 </style>
-                """, unsafe_allow_html=True)
+                """,
+    unsafe_allow_html=True,
+)
 
 # ------------------------------------------------------------
 # FONCTIONS
@@ -184,11 +194,11 @@ if st.button("Reset"):
 # To DO:
 # Ajouter des Thèmes et des questions
 # Boutons revoir en colonnes
-#-> Rendre l'UI encore plus agréable
-#-> Créer un système d'authentification pour avoir plusieurs utilisateurs
-#-> Formatter le SQL qui affiche la réponse
-#-> Si vous en voyez d'autres, lancez vous :)
+# -> Rendre l'UI encore plus agréable
+# -> Créer un système d'authentification pour avoir plusieurs utilisateurs
+# -> Formatter le SQL qui affiche la réponse
+# -> Si vous en voyez d'autres, lancez vous :)
 #
 #
-#Je rembourse l'inscription au programme à celui ou celle qui fera la plus belle app d'ici début Décembre :D
-#(Personne ne va oser se lancer, si vous le faites vous serez en compétition contre même pas 5 personnes ;) )
+# Je rembourse l'inscription au programme à celui ou celle qui fera la plus belle app d'ici début Décembre :D
+# (Personne ne va oser se lancer, si vous le faites vous serez en compétition contre même pas 5 personnes ;) )
