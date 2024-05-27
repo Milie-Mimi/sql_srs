@@ -23,7 +23,7 @@ data = {
         ["sizes", "trademarks"],
         ["hours", "quarters"],
         ["salaries", "seniorities"],
-        ["orders", "customers", "p_names", "order_details"],
+        ["orders", "customers", "products", "order_details"],
     ],
     "last_reviewed": [
         "1970-01-01",
@@ -164,3 +164,6 @@ con.execute(
 
 
 con.close()
+
+
+# python init_db.py
