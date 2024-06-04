@@ -180,7 +180,6 @@ with tab2:
     st.table(df_answer)
 
 
-
 # streamlit run app.py
 
 
