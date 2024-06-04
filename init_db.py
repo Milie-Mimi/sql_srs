@@ -185,47 +185,38 @@ con.execute(
 # FULL OUTER JOIN EXERCISES
 # ------------------------------------------------------------
 customers_data = {
-    'customer_id': [11, 12, 13, 14, 15],
-    'customer_name': ["Zeinaba", "Tancrède", "Israel", "Kaouter", "Alan"]
+    "customer_id": [11, 12, 13, 14, 15],
+    "customer_name": ["Zeinaba", "Tancrède", "Israel", "Kaouter", "Alan"],
 }
 customers_data = pd.DataFrame(customers_data)
-con.execute(
-    "CREATE TABLE IF NOT EXISTS df_customers AS SELECT * FROM customers_data"
-)
+con.execute("CREATE TABLE IF NOT EXISTS df_customers AS SELECT * FROM customers_data")
 
-stores_data = {
-    'store_id': [1, 2, 3, 4],
-    'customer_id': [11, 12, 13, 15]
-}
+stores_data = {"store_id": [1, 2, 3, 4], "customer_id": [11, 12, 13, 15]}
 stores_data = pd.DataFrame(stores_data)
-con.execute(
-    "CREATE TABLE IF NOT EXISTS df_stores AS SELECT * FROM stores_data"
-)
+con.execute("CREATE TABLE IF NOT EXISTS df_stores AS SELECT * FROM stores_data")
 
 store_products_data = {
-    'store_id': [1, 1, 1, 2, 2, 3, 4],
-    'product_id': [101, 103, 105, 101, 103, 104, 105],
+    "store_id": [1, 1, 1, 2, 2, 3, 4],
+    "product_id": [101, 103, 105, 101, 103, 104, 105],
 }
 store_products_data = pd.DataFrame(store_products_data)
 con.execute(
     "CREATE TABLE IF NOT EXISTS df_store_products AS SELECT * FROM store_products_data"
 )
 
-p_names = ["Cherry coke", "Laptop", "Ipad", "Livre",]
+p_names = [
+    "Cherry coke",
+    "Laptop",
+    "Ipad",
+    "Livre",
+]
 products_data = {
-    'product_id': [100, 101, 103, 104],
-    'product_name': p_names,
-    'product_price': [3, 800, 400, 30]
+    "product_id": [100, 101, 103, 104],
+    "product_name": p_names,
+    "product_price": [3, 800, 400, 30],
 }
 products_data = pd.DataFrame(products_data)
-con.execute(
-    "CREATE TABLE IF NOT EXISTS df_products AS SELECT * FROM products_data"
-)
-
-
-
-
-
+con.execute("CREATE TABLE IF NOT EXISTS df_products AS SELECT * FROM products_data")
 
 
 con.close()
