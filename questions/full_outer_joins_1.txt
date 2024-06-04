@@ -1,0 +1,1 @@
+Assembler les clients avec leurs stores et produits respectifs puis la totalité des produits qui existe dans la magasin.
