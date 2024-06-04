@@ -34,17 +34,6 @@ st.set_page_config(
 st.markdown(
     """
                 <style>
-                .image_credit-font {
-                    font-size:14px;
-                }
-                </style>
-                """,
-    unsafe_allow_html=True,
-)
-
-st.markdown(
-    """
-                <style>
                 .text-font {
                     font-size:20px;
                     text-align: justify;
@@ -108,12 +97,12 @@ with st.sidebar:
         .reset_index(drop=True)
     )
 
+    st.write(exercise)
     exercise_name = exercise.loc[0, "exercise_name"]
     with open(f"answers/{exercise_name}.sql", "r") as f:
         answer = f.read()
 
     solution_df = con.execute(answer).df()
-
 
 # ------------------------------------------------------------
 # HEADER
@@ -132,7 +121,7 @@ with st.expander("**What is SRS?**"):
         and retain them indefinitely in memory**. 
         It is, therefore, well suited for the problem of vocabulary acquisition in the course of 
         second-language learning (works also for programming language).
-        
+
         Source: Wikipedia
     """
     )
@@ -143,6 +132,32 @@ with open(f"questions/{exercise_name}.txt", "r") as f:
     question = f.read()
 
 st.write(question)
+
+
+# ------------------------------------------------------------
+# QUERY
+# ------------------------------------------------------------
+st.subheader("Réponse")
+form = st.form("my_form")
+query = form.text_area(label="code SQL", key="user_input")
+form.form_submit_button("Submit")
+
+if query:
+    check_users_solution(query)
+
+# cols_srs = st.columns(3)
+for n_days in [2, 7, 21]:
+    if st.button(f"Revoir dans {n_days} jours"):
+        next_review = date.today() + timedelta(days=n_days)
+        con.execute(
+            f"UPDATE memory_state SET last_reviewed = '{next_review}' WHERE exercise_name = '{exercise_name}'"
+        )
+        st.rerun()
+
+if st.button("Reset"):
+    con.execute(f"UPDATE memory_state SET last_reviewed = '1970-01-01'")
+    st.rerun()
+
 
 # ------------------------------------------------------------
 # TABS
@@ -163,31 +178,6 @@ with tab2:
     st.write(answer)
     df_answer = con.execute(answer).df()
     st.table(df_answer)
-
-
-# ------------------------------------------------------------
-# QUERY
-# ------------------------------------------------------------
-st.subheader("Réponse")
-form = st.form("my_form")
-query = form.text_area(label="code SQL", key="user_input")
-form.form_submit_button("Submit")
-
-if query:
-    check_users_solution(query)
-
-cols_srs = st.columns(3)
-for n_days in [2, 7, 21]:
-    if st.button(f"Revoir dans {n_days} jours"):
-        next_review = date.today() + timedelta(days=n_days)
-        con.execute(
-            f"UPDATE memory_state SET last_reviewed = '{next_review}' WHERE exercise_name = '{exercise_name}'"
-        )
-        st.rerun()
-
-if st.button("Reset"):
-    con.execute(f"UPDATE memory_state SET last_reviewed = '1970-01-01'")
-    st.rerun()
 
 
 # streamlit run app.py
