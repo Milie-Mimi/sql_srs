@@ -1,4 +1,5 @@
 import io
+import random
 
 import pandas as pd
 import duckdb
@@ -10,22 +11,48 @@ con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=Fals
 # ------------------------------------------------------------
 
 data = {
-    "theme": ["cross_joins", "cross_joins", "cross_joins", "inner_joins", "left_joins"],
+    "theme": [
+        "cross_joins",
+        "cross_joins",
+        "cross_joins",
+        "inner_joins",
+        "left_joins",
+        "left_joins",
+        "left_joins",
+        "full_outer_joins",
+        "self_joins",
+        "self_joins",
+    ],
     "exercise_name": [
         "cross_joins_1",
         "cross_joins_2",
         "cross_joins_3",
         "inner_joins_1",
         "left_joins_1",
+        "left_joins_2",
+        "left_joins_3",
+        "full_outer_joins_1",
+        "self_joins_1",
+        "self_joins_2",
     ],
     "tables": [
         ["beverages", "food_items"],
         ["sizes", "trademarks"],
         ["hours", "quarters"],
         ["salaries", "seniorities"],
-        ["orders", "customers", "p_names", "order_details"],
+        ["orders", "customers", "products", "order_details"],
+        ["orders", "customers", "products", "order_details"],
+        ["orders", "customers", "products", "order_details"],
+        ["df_customers", "df_stores", "df_store_products", "df_products"],
+        ["employees"],
+        ["sales"],
     ],
     "last_reviewed": [
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
@@ -163,4 +190,66 @@ con.execute(
 )
 
 
+# ------------------------------------------------------------
+# FULL OUTER JOIN EXERCISES
+# ------------------------------------------------------------
+customers_data = {
+    "customer_id": [11, 12, 13, 14, 15],
+    "customer_name": ["Zeinaba", "Tancrède", "Israel", "Kaouter", "Alan"],
+}
+customers_data = pd.DataFrame(customers_data)
+con.execute("CREATE TABLE IF NOT EXISTS df_customers AS SELECT * FROM customers_data")
+
+stores_data = {"store_id": [1, 2, 3, 4], "customer_id": [11, 12, 13, 15]}
+stores_data = pd.DataFrame(stores_data)
+con.execute("CREATE TABLE IF NOT EXISTS df_stores AS SELECT * FROM stores_data")
+
+store_products_data = {
+    "store_id": [1, 1, 1, 2, 2, 3, 4],
+    "product_id": [101, 103, 105, 101, 103, 104, 105],
+}
+store_products_data = pd.DataFrame(store_products_data)
+con.execute(
+    "CREATE TABLE IF NOT EXISTS df_store_products AS SELECT * FROM store_products_data"
+)
+
+p_names = [
+    "Cherry coke",
+    "Laptop",
+    "Ipad",
+    "Livre",
+]
+products_data = {
+    "product_id": [100, 101, 103, 104],
+    "product_name": p_names,
+    "product_price": [3, 800, 400, 30],
+}
+products_data = pd.DataFrame(products_data)
+con.execute("CREATE TABLE IF NOT EXISTS df_products AS SELECT * FROM products_data")
+
+# ------------------------------------------------------------
+# SELF JOIN EXERCISES
+# ------------------------------------------------------------
+employees = {
+    "employee_id": [11, 12, 13, 14, 15],
+    "employee_name": ["Sophie", "Sylvie", "Daniel", "Kaouter", "David"],
+    "manager_id": [13, None, 12, 13, 11],
+}
+employees = pd.DataFrame(employees)
+con.execute("CREATE TABLE IF NOT EXISTS employees AS SELECT * FROM employees")
+
+
+sales = {
+    "order_id": list(range(1110, 1198)),
+    "customer_id": random.choices([11, 12, 13, 14, 15, 11, 12, 13, 14], k=88),
+}
+
+sales = pd.DataFrame(sales)
+sales["date"] = [d // 3 + 1 for d in range(1, 89)]
+con.execute("CREATE TABLE IF NOT EXISTS sales AS SELECT * FROM sales")
+
+
 con.close()
+
+
+# python init_db.py
