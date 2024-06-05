@@ -1,4 +1,5 @@
 import io
+import random
 
 import pandas as pd
 import duckdb
@@ -19,6 +20,8 @@ data = {
         "left_joins",
         "left_joins",
         "full_outer_joins",
+        "self_joins",
+        "self_joins",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -29,6 +32,8 @@ data = {
         "left_joins_2",
         "left_joins_3",
         "full_outer_joins_1",
+        "self_joins_1",
+        "self_joins_2",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -39,6 +44,8 @@ data = {
         ["orders", "customers", "products", "order_details"],
         ["orders", "customers", "products", "order_details"],
         ["df_customers", "df_stores", "df_store_products", "df_products"],
+        ["employees"],
+        ["sales"],
     ],
     "last_reviewed": [
         "1970-01-01",
@@ -49,6 +56,8 @@ data = {
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
+        "1970-01-01",
+        "1960-01-01",
     ],
 }
 memory_state_df = pd.DataFrame(data)
@@ -217,6 +226,27 @@ products_data = {
 }
 products_data = pd.DataFrame(products_data)
 con.execute("CREATE TABLE IF NOT EXISTS df_products AS SELECT * FROM products_data")
+
+# ------------------------------------------------------------
+# SELF JOIN EXERCISES
+# ------------------------------------------------------------
+employees = {
+    "employee_id": [11, 12, 13, 14, 15],
+    "employee_name": ["Sophie", "Sylvie", "Daniel", "Kaouter", "David"],
+    "manager_id": [13, None, 12, 13, 11],
+}
+employees = pd.DataFrame(employees)
+con.execute("CREATE TABLE IF NOT EXISTS employees AS SELECT * FROM employees")
+
+
+sales = {
+    "order_id": list(range(1110, 1198)),
+    "customer_id": random.choices([11, 12, 13, 14, 15, 11, 12, 13, 14], k=88),
+}
+
+sales = pd.DataFrame(sales)
+sales["date"] = [d // 3 + 1 for d in range(1, 89)]
+con.execute("CREATE TABLE IF NOT EXISTS sales AS SELECT * FROM sales")
 
 
 con.close()

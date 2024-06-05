@@ -139,7 +139,9 @@ st.write(question)
 # ------------------------------------------------------------
 st.subheader("Réponse")
 form = st.form("my_form")
-query = form.text_area(label="code SQL", key="user_input")
+query = form.text_area(
+    label="code SQL (ctrl+enter to visualize table)", key="user_input"
+)
 form.form_submit_button("Submit")
 
 if query:
