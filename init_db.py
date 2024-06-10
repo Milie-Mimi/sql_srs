@@ -23,6 +23,7 @@ data = {
         "self_joins",
         "self_joins",
         "group_by",
+        "group_by",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -36,6 +37,7 @@ data = {
         "self_joins_1",
         "self_joins_2",
         "group_by_1",
+        "group_by_2",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -49,8 +51,10 @@ data = {
         ["employees"],
         ["sales"],
         ["ventes_immo"],
+        ["ventes_immo"],
     ],
     "last_reviewed": [
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
