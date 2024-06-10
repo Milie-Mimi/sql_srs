@@ -1,6 +1,6 @@
 import io
 import random
-
+import numpy as np
 import pandas as pd
 import duckdb
 
@@ -22,6 +22,9 @@ data = {
         "full_outer_joins",
         "self_joins",
         "self_joins",
+        "group_by",
+        "group_by",
+        "group_by",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -34,6 +37,9 @@ data = {
         "full_outer_joins_1",
         "self_joins_1",
         "self_joins_2",
+        "group_by_1",
+        "group_by_2",
+        "group_by_3",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -46,8 +52,14 @@ data = {
         ["df_customers", "df_stores", "df_store_products", "df_products"],
         ["employees"],
         ["sales"],
+        ["ventes_immo"],
+        ["ventes"],
+        ["ventes"],
     ],
     "last_reviewed": [
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
@@ -248,6 +260,57 @@ sales = pd.DataFrame(sales)
 sales["date"] = [d // 3 + 1 for d in range(1, 89)]
 con.execute("CREATE TABLE IF NOT EXISTS sales AS SELECT * FROM sales")
 
+# ------------------------------------------------------------
+# GROUP BY EXERCISES
+# ------------------------------------------------------------
+dates = [f"2023-08-{str(x).zfill(2)}" for x in range(7, 21)]
+ventes_immo_df = pd.DataFrame(
+    [
+        [0, "vieux_lille", 460000],
+        [1, "vieux_lille", 430000],
+        [2, "vieux_lille", 450000],
+        [3, np.NaN, 470000],
+        [4, "vieux_lille", 440000],
+        [10, "gambetta", 336000],
+        [11, np.NaN, 333000],
+        [12, "gambetta", 335000],
+        [13, "gambetta", 337000],
+        [14, "gambetta", 334000],
+        [20, "centre", 356000],
+        [21, "centre", 353000],
+        [22, np.NaN, 355000],
+        [23, "centre", 357000],
+        [24, "centre", 354000],
+        [30, "wazemmes", 260000],
+        [31, np.NaN, 230000],
+        [32, "wazemmes", 250000],
+        [33, "wazemmes", 270000],
+        [34, "wazemmes", 240000],
+    ]
+)
+
+ventes_immo_df.columns = ["flat_id", "neighborhood", "price"]
+con.execute("CREATE TABLE IF NOT EXISTS ventes_immo AS SELECT * FROM ventes_immo_df")
+
+
+clients = [
+    "Oussama",
+    "Julie",
+    "Chris",
+    "Tom",
+    "Jean-Nicolas",
+    "Aline",
+    "Ben",
+    "Toufik",
+    "Sylvie",
+    "David",
+]
+ventes_df = [110, 49, 65, 23, 24, 3.99, 29, 48.77, 44, 10, 60, 12, 62, 19, 75] * 2
+ventes_df = pd.DataFrame(ventes_df)
+ventes_df.columns = ["montant"]
+ventes_df["client"] = clients * 3
+
+con.execute("CREATE TABLE IF NOT EXISTS ventes AS SELECT * FROM ventes_df")
 
 con.close()
 
