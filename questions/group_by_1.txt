@@ -1,0 +1,3 @@
+Calculer le prix moyen et le nombre de ventes par quartier.
+Si le quartier n'est pas connu, indiquer "inconnu".
+Classer du plus cher au moins cher.

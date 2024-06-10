@@ -1,0 +1,1 @@
+Sortir la liste des clients qui ont des achats > moyenne (avec une CTE).
