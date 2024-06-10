@@ -23,6 +23,7 @@ data = {
         "self_joins",
         "self_joins",
         "group_by",
+        "group_by",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -36,6 +37,7 @@ data = {
         "self_joins_1",
         "self_joins_2",
         "group_by_1",
+        "group_by_2",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -49,8 +51,10 @@ data = {
         ["employees"],
         ["sales"],
         ["ventes_immo"],
+        ["ventes"],
     ],
     "last_reviewed": [
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
@@ -284,6 +288,25 @@ ventes_immo_df = pd.DataFrame(
 ventes_immo_df.columns = ["flat_id", "neighborhood", "price"]
 con.execute("CREATE TABLE IF NOT EXISTS ventes_immo AS SELECT * FROM ventes_immo_df")
 
+
+clients = [
+    "Oussama",
+    "Julie",
+    "Chris",
+    "Tom",
+    "Jean-Nicolas",
+    "Aline",
+    "Ben",
+    "Toufik",
+    "Sylvie",
+    "David",
+]
+ventes_df = [110, 49, 65, 23, 24, 3.99, 29, 48.77, 44, 10, 60, 12, 62, 19, 75] * 2
+ventes_df = pd.DataFrame(ventes_df)
+ventes_df.columns = ["montant"]
+ventes_df["client"] = clients * 3
+
+con.execute("CREATE TABLE IF NOT EXISTS ventes AS SELECT * FROM ventes_df")
 
 con.close()
 
