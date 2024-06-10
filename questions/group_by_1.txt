@@ -1,0 +1,3 @@
+Calculer le prix moyen par quartier.
+Si le quartier n'est pas connu, indiquer "inconnu".
+Classer du plus cher au moins cher.
