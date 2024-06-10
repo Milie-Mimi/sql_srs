@@ -1,0 +1,1 @@
+Utilisez une CTE pour obtenir les clients qui ont un total d'achat supérieur à la moyenne des totaux d'achats des autres clients.

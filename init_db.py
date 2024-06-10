@@ -24,6 +24,7 @@ data = {
         "self_joins",
         "group_by",
         "group_by",
+        "group_by",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -38,6 +39,7 @@ data = {
         "self_joins_2",
         "group_by_1",
         "group_by_2",
+        "group_by_3",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -52,8 +54,10 @@ data = {
         ["sales"],
         ["ventes_immo"],
         ["ventes"],
+        ["ventes"],
     ],
     "last_reviewed": [
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
