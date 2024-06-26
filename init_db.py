@@ -28,6 +28,7 @@ data = {
         "case_when",
         "case_when",
         "case_when",
+        "case_when",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -46,6 +47,7 @@ data = {
         "case_when_1",
         "case_when_2",
         "case_when_3",
+        "case_when_4",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -64,8 +66,10 @@ data = {
         ["orders_df"],
         ["salaires"],
         ["discount"],
+        ["salaires"],
     ],
     "last_reviewed": [
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
