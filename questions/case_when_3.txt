@@ -1,0 +1,6 @@
+Calculer la somme des ventes après réduction:
+- DISCOUNT10 = 0.9
+- DISCOUNT20 = 0.8
+- 1 pour les autres
+
+Une seule requête, pas de CTE!

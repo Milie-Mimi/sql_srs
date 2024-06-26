@@ -27,6 +27,7 @@ data = {
         "group_by",
         "case_when",
         "case_when",
+        "case_when",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -44,6 +45,7 @@ data = {
         "group_by_3",
         "case_when_1",
         "case_when_2",
+        "case_when_3",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -61,8 +63,10 @@ data = {
         ["ventes"],
         ["orders_df"],
         ["salaires"],
+        ["discount"],
     ],
     "last_reviewed": [
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
@@ -356,7 +360,16 @@ salaires_df = pd.DataFrame(salaires_df)
 con.execute("CREATE TABLE IF NOT EXISTS salaires AS SELECT * FROM salaires_df")
 
 
+discount_df = {
+    'order_id': [1, 2, 3, 4, 5, 6],
+    'product_id': [101, 102, 101, 103, 102, 103],
+    'quantity': [5, 3, 2, 4, 6, 2],
+    'price_per_unit': [10.0, 25.0, 10.0, 8.0, 25.0, 8.0],
+    'discount_code': [None, 'DISCOUNT10', 'DISCOUNT20', None, None, 'UNKNOWN']
+}
 
+discount_df = pd.DataFrame(discount_df)
+con.execute("CREATE TABLE IF NOT EXISTS discount AS SELECT * FROM discount_df")
 
 
 
