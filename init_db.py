@@ -25,6 +25,7 @@ data = {
         "group_by",
         "group_by",
         "group_by",
+        "case_when",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -40,6 +41,7 @@ data = {
         "group_by_1",
         "group_by_2",
         "group_by_3",
+        "case_when_1",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -55,8 +57,10 @@ data = {
         ["ventes_immo"],
         ["ventes"],
         ["ventes"],
+        ["orders_df"],
     ],
     "last_reviewed": [
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
@@ -312,7 +316,33 @@ ventes_df["client"] = clients * 3
 
 con.execute("CREATE TABLE IF NOT EXISTS ventes AS SELECT * FROM ventes_df")
 
+
+# ------------------------------------------------------------
+# CASE WHEN EXERCISES
+# ------------------------------------------------------------
+orders_df = {
+    "order_id": [1, 2, 3, 4, 5],
+    "order_date": [
+        "2023-01-15",
+        "2023-02-20",
+        "2023-03-05",
+        "2023-04-10",
+        "2023-05-18",
+    ],
+    "order_amount": [120, 450, 800, 60, 1500],
+}
+orders_df = pd.DataFrame(orders_df)
+
+con.execute("CREATE TABLE IF NOT EXISTS orders_df AS SELECT * FROM orders_df")
+
 con.close()
 
 
 # python init_db.py
+
+
+#if __name__ == "__main__":
+#    print(orders_df)
+#    #con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=False)
+#    #print(con.execute("SELECT * FROM orders").df())
+#    #con.close()
