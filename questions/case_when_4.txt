@@ -1,0 +1,7 @@
+On cherche à classer les revenus par catégorie:
+- Low si < 50 000
+- Medium si < 90 000
+- sinon: High
+
+Puis de faire la moyenne par département et catégorie des revenus.
+On souhaite également compter le nombre de personnes incluses dans chaque regroupement.

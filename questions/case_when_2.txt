@@ -1,0 +1,5 @@
+Appliquez les augmentations suivantes à la table des salaires:
+- si le département est "SALES" => 10% d'augmentation,
+- si le département est "HR" => 05% d'augmentation
+- si le département est "IT" => 03% d'augmentation
+- pour les autres (le CEO) => 0% d'augmentation

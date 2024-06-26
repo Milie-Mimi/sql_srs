@@ -25,6 +25,10 @@ data = {
         "group_by",
         "group_by",
         "group_by",
+        "case_when",
+        "case_when",
+        "case_when",
+        "case_when",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -40,6 +44,10 @@ data = {
         "group_by_1",
         "group_by_2",
         "group_by_3",
+        "case_when_1",
+        "case_when_2",
+        "case_when_3",
+        "case_when_4",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -55,8 +63,16 @@ data = {
         ["ventes_immo"],
         ["ventes"],
         ["ventes"],
+        ["orders_df"],
+        ["salaires"],
+        ["discount"],
+        ["salaires"],
     ],
     "last_reviewed": [
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
@@ -312,7 +328,104 @@ ventes_df["client"] = clients * 3
 
 con.execute("CREATE TABLE IF NOT EXISTS ventes AS SELECT * FROM ventes_df")
 
+
+# ------------------------------------------------------------
+# CASE WHEN EXERCISES
+# ------------------------------------------------------------
+orders_df = {
+    "order_id": [1, 2, 3, 4, 5],
+    "order_date": [
+        "2023-01-15",
+        "2023-02-20",
+        "2023-03-05",
+        "2023-04-10",
+        "2023-05-18",
+    ],
+    "order_amount": [120, 450, 800, 60, 1500],
+}
+orders_df = pd.DataFrame(orders_df)
+
+con.execute("CREATE TABLE IF NOT EXISTS orders_df AS SELECT * FROM orders_df")
+
+
+salaires_df = {
+    "name": [
+        "Toufik",
+        "Jean-Nicolas",
+        "Daniel",
+        "Kaouter",
+        "Sylvie",
+        "Sebastien",
+        "Diane",
+        "Romain",
+        "François",
+        "Anna",
+        "Zeinaba",
+        "Gregory",
+        "Karima",
+        "Arthur",
+        "Benjamin",
+    ],
+    "wage": [
+        60000,
+        75000,
+        55000,
+        80000,
+        70000,
+        90000,
+        65000,
+        72000,
+        68000,
+        85000,
+        100000,
+        120000,
+        95000,
+        83000,
+        110000,
+    ],
+    "department": [
+        "IT",
+        "HR",
+        "SALES",
+        "IT",
+        "IT",
+        "HR",
+        "SALES",
+        "IT",
+        "HR",
+        "SALES",
+        "IT",
+        "IT",
+        "HR",
+        "SALES",
+        "CEO",
+    ],
+}
+
+salaires_df = pd.DataFrame(salaires_df)
+con.execute("CREATE TABLE IF NOT EXISTS salaires AS SELECT * FROM salaires_df")
+
+
+discount_df = {
+    "order_id": [1, 2, 3, 4, 5, 6],
+    "product_id": [101, 102, 101, 103, 102, 103],
+    "quantity": [5, 3, 2, 4, 6, 2],
+    "price_per_unit": [10.0, 25.0, 10.0, 8.0, 25.0, 8.0],
+    "discount_code": [None, "DISCOUNT10", "DISCOUNT20", None, None, "UNKNOWN"],
+}
+
+discount_df = pd.DataFrame(discount_df)
+con.execute("CREATE TABLE IF NOT EXISTS discount AS SELECT * FROM discount_df")
+
+
 con.close()
 
 
 # python init_db.py
+
+
+# if __name__ == "__main__":
+#    print(orders_df)
+#    #con = duckdb.connect(database="data/exercises_sql_tables.duckdb", read_only=False)
+#    #print(con.execute("SELECT * FROM orders").df())
+#    #con.close()

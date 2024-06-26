@@ -1,0 +1,4 @@
+Rajouter une colonne "order_category" avec les conditions suivantes:
+- "Small" pour les montants < 200,
+- "Medium" pour les montants >= 200 et < 800
+- et "Large" pour les autres
