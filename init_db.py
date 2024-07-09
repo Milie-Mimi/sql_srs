@@ -29,6 +29,7 @@ data = {
         "case_when",
         "case_when",
         "case_when",
+        "grouping_set",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -48,6 +49,7 @@ data = {
         "case_when_2",
         "case_when_3",
         "case_when_4",
+        "grouping_set_1",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -67,8 +69,10 @@ data = {
         ["salaires"],
         ["discount"],
         ["salaires"],
+        ["redbull"],
     ],
     "last_reviewed": [
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
@@ -418,9 +422,47 @@ discount_df = pd.DataFrame(discount_df)
 con.execute("CREATE TABLE IF NOT EXISTS discount AS SELECT * FROM discount_df")
 
 
+# ------------------------------------------------------------
+# GROUPING SETS EXERCISES
+# ------------------------------------------------------------
+redbull_df = {
+    "store_id": [
+        "Armentieres",
+        "Armentieres",
+        "Armentieres",
+        "Armentieres",
+        "Lille",
+        "Lille",
+        "Lille",
+        "Lille",
+        "Douai",
+        "Douai",
+        "Douai",
+        "Douai",
+    ],
+    "product_name": [
+        "redbull",
+        "chips",
+        "wine",
+        "redbull",
+        "redbull",
+        "chips",
+        "wine",
+        "icecream",
+        "redbull",
+        "chips",
+        "wine",
+        "icecream",
+    ],
+    "amount": [45, 60, 60, 45, 100, 140, 190, 170, 55, 70, 20, 45],
+}
+redbull_df = pd.DataFrame(redbull_df)
+con.execute("CREATE TABLE IF NOT EXISTS redbull AS SELECT * FROM redbull_df")
+
+
 con.close()
 
-
+# black init_db.py
 # python init_db.py
 
 

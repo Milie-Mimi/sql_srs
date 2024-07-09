@@ -1,0 +1,2 @@
+Rajouter une ligne qui calcule la somme des produits par magasin.
+Faire apparaitre "TOTAL MAGASIN" au lieu de "NULL"
