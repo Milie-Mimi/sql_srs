@@ -29,6 +29,12 @@ data = {
         "case_when",
         "case_when",
         "case_when",
+        "grouping_set",
+        "grouping_set",
+        "grouping_set",
+        "grouping_set",
+        "grouping_set",
+        "grouping_set",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -48,6 +54,12 @@ data = {
         "case_when_2",
         "case_when_3",
         "case_when_4",
+        "grouping_set_1",
+        "grouping_set_2",
+        "grouping_set_3",
+        "grouping_set_4",
+        "grouping_set_5",
+        "grouping_set_6",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -67,8 +79,20 @@ data = {
         ["salaires"],
         ["discount"],
         ["salaires"],
+        ["redbull"],
+        ["datapop"],
+        ["redbull"],
+        ["redbull"],
+        ["sante"],
+        ["sante"],
     ],
     "last_reviewed": [
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
@@ -418,9 +442,115 @@ discount_df = pd.DataFrame(discount_df)
 con.execute("CREATE TABLE IF NOT EXISTS discount AS SELECT * FROM discount_df")
 
 
+# ------------------------------------------------------------
+# GROUPING SETS EXERCISES
+# ------------------------------------------------------------
+redbull_df = {
+    "store_id": [
+        "Armentieres",
+        "Armentieres",
+        "Armentieres",
+        "Armentieres",
+        "Lille",
+        "Lille",
+        "Lille",
+        "Lille",
+        "Douai",
+        "Douai",
+        "Douai",
+        "Douai",
+    ],
+    "product_name": [
+        "redbull",
+        "chips",
+        "wine",
+        "redbull",
+        "redbull",
+        "chips",
+        "wine",
+        "icecream",
+        "redbull",
+        "chips",
+        "wine",
+        "icecream",
+    ],
+    "amount": [45, 60, 60, 45, 100, 140, 190, 170, 55, 70, 20, 45],
+}
+redbull_df = pd.DataFrame(redbull_df)
+con.execute("CREATE TABLE IF NOT EXISTS redbull AS SELECT * FROM redbull_df")
+
+
+df_pop = {
+    "year": [2016, 2017, 2018, 2019, 2020] * 3,
+    "region": (["IDF"] * 5) + (["HDF"] * 5) + (["PACA"] * 5),
+    "population": [1010000, 1020000, 1030000, 1040000, 1000000]
+    + [910000, 920000, 930000, 940000, 900000]
+    + [810000, 820000, 830000, 840000, 950000],
+}
+df_pop = pd.DataFrame(df_pop)
+con.execute("CREATE TABLE IF NOT EXISTS datapop AS SELECT * FROM df_pop")
+
+
+random.seed(42)
+num_samples = 1000
+
+contrats = ["senior", "jeunes", "expat", "famille", "salarié"]
+sexe = ["homme", "femme"]
+type_acte = {
+    "pharmacie": 15,
+    "consultation_generaliste": 25,
+    "hospitalisation": 2800,
+    "biologie": 150,
+    "radio": 1300,
+    "maternite": 1700,
+}
+groupe_age = ["18-25", "25-45", "45-65", "65+"]
+annee = [2017, 2018, 2019]
+
+# Initialize empty lists to store the data
+contrats_data = []
+sexe_data = []
+type_acte_data = []
+groupe_age_data = []
+annee_data = []
+cost_data = []
+
+# Generate random data for each category
+for _ in range(num_samples):
+    contrats_data.append(random.choice(contrats))
+    sexe_data.append(random.choice(sexe))
+    if sexe_data == "femme":
+        type_acte_choice = random.choice(list(type_acte.keys()))
+    else:
+        type_acte_options = list(type_acte.keys())
+        type_acte_options.remove("maternite")
+        type_acte_choice = random.choice(type_acte_options)
+
+    type_acte_data.append(type_acte_choice)
+    cost_mean = type_acte[type_acte_choice]
+    cost_data.append(
+        np.random.normal(cost_mean, cost_mean // 3.5)
+    )  # Assuming a standard deviation of 50 for costs
+    groupe_age_data.append(random.choice(groupe_age))
+    annee_data.append(random.choice(annee))
+
+# Create a DataFrame to store the dataset
+sante_df = pd.DataFrame(
+    {
+        "type_contrat": contrats_data,
+        "sexe": sexe_data,
+        "type_acte": type_acte_data,
+        "groupe_age": groupe_age_data,
+        "annee": annee_data,
+        "montant_rembourse": cost_data,
+    }
+)
+con.execute("CREATE TABLE IF NOT EXISTS sante AS SELECT * FROM sante_df")
+
+
 con.close()
 
-
+# black init_db.py
 # python init_db.py
 
 

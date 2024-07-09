@@ -1,0 +1,2 @@
+Faire la somme des produits Redbull par magasin et indiquer à côté le montant total du magasin.
+Utiliser FILTER.
