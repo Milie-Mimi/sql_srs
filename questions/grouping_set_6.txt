@@ -1,0 +1,2 @@
+Récupérer la somme par type d'acte, la somme par type de contrat ET la somme par type d'acte + type de contrat.
+Nommer les sommes TOTAL.

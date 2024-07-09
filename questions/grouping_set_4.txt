@@ -1,0 +1,4 @@
+Faire la somme des produits Redbull par magasin et indiquer à côté le montant total du magasin.
+Calculer ensuite la part des produits Redbull vendus par magasin.
+Classer par ordre décroissant de somme du magasin.
+Utiliser CASE WHEN.
