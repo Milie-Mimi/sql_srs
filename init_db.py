@@ -33,6 +33,7 @@ data = {
         "grouping_set",
         "grouping_set",
         "grouping_set",
+        "grouping_set",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -56,6 +57,7 @@ data = {
         "grouping_set_2",
         "grouping_set_3",
         "grouping_set_4",
+        "grouping_set_5",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -79,8 +81,10 @@ data = {
         ["datapop"],
         ["redbull"],
         ["redbull"],
+        ["sante"],
     ],
     "last_reviewed": [
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
@@ -481,6 +485,63 @@ df_pop = {
 }
 df_pop = pd.DataFrame(df_pop)
 con.execute("CREATE TABLE IF NOT EXISTS datapop AS SELECT * FROM df_pop")
+
+
+random.seed(42)
+num_samples = 1000
+
+contrats = ["senior", "jeunes", "expat", "famille", "salarié"]
+sexe = ["homme", "femme"]
+type_acte = {
+    "pharmacie": 15,
+    "consultation_generaliste": 25,
+    "hospitalisation": 2800,
+    "biologie": 150,
+    "radio": 1300,
+    "maternite": 1700,
+}
+groupe_age = ["18-25", "25-45", "45-65", "65+"]
+annee = [2017, 2018, 2019]
+
+# Initialize empty lists to store the data
+contrats_data = []
+sexe_data = []
+type_acte_data = []
+groupe_age_data = []
+annee_data = []
+cost_data = []
+
+# Generate random data for each category
+for _ in range(num_samples):
+    contrats_data.append(random.choice(contrats))
+    sexe_data.append(random.choice(sexe))
+    if sexe_data == "femme":
+        type_acte_choice = random.choice(list(type_acte.keys()))
+    else:
+        type_acte_options = list(type_acte.keys())
+        type_acte_options.remove("maternite")
+        type_acte_choice = random.choice(type_acte_options)
+
+    type_acte_data.append(type_acte_choice)
+    cost_mean = type_acte[type_acte_choice]
+    cost_data.append(
+        np.random.normal(cost_mean, cost_mean // 3.5)
+    )  # Assuming a standard deviation of 50 for costs
+    groupe_age_data.append(random.choice(groupe_age))
+    annee_data.append(random.choice(annee))
+
+# Create a DataFrame to store the dataset
+sante_df = pd.DataFrame(
+    {
+        "type_contrat": contrats_data,
+        "sexe": sexe_data,
+        "type_acte": type_acte_data,
+        "groupe_age": groupe_age_data,
+        "annee": annee_data,
+        "montant_rembourse": cost_data,
+    }
+)
+con.execute("CREATE TABLE IF NOT EXISTS sante AS SELECT * FROM sante_df")
 
 
 con.close()
