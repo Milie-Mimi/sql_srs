@@ -1,0 +1,1 @@
+Calculer le total de la population par année, toutes régions confondues.

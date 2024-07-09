@@ -30,6 +30,7 @@ data = {
         "case_when",
         "case_when",
         "grouping_set",
+        "grouping_set",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -50,6 +51,7 @@ data = {
         "case_when_3",
         "case_when_4",
         "grouping_set_1",
+        "grouping_set_2",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -70,8 +72,10 @@ data = {
         ["discount"],
         ["salaires"],
         ["redbull"],
+        ["datapop"],
     ],
     "last_reviewed": [
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
@@ -458,6 +462,17 @@ redbull_df = {
 }
 redbull_df = pd.DataFrame(redbull_df)
 con.execute("CREATE TABLE IF NOT EXISTS redbull AS SELECT * FROM redbull_df")
+
+
+df_pop = {
+    "year": [2016, 2017, 2018, 2019, 2020] * 3,
+    "region": (["IDF"] * 5) + (["HDF"] * 5) + (["PACA"] * 5),
+    "population": [1010000, 1020000, 1030000, 1040000, 1000000]
+    + [910000, 920000, 930000, 940000, 900000]
+    + [810000, 820000, 830000, 840000, 950000],
+}
+df_pop = pd.DataFrame(df_pop)
+con.execute("CREATE TABLE IF NOT EXISTS datapop AS SELECT * FROM df_pop")
 
 
 con.close()
