@@ -32,6 +32,7 @@ data = {
         "grouping_set",
         "grouping_set",
         "grouping_set",
+        "grouping_set",
     ],
     "exercise_name": [
         "cross_joins_1",
@@ -54,6 +55,7 @@ data = {
         "grouping_set_1",
         "grouping_set_2",
         "grouping_set_3",
+        "grouping_set_4",
     ],
     "tables": [
         ["beverages", "food_items"],
@@ -76,8 +78,10 @@ data = {
         ["redbull"],
         ["datapop"],
         ["redbull"],
+        ["redbull"],
     ],
     "last_reviewed": [
+        "1970-01-01",
         "1970-01-01",
         "1970-01-01",
         "1970-01-01",
